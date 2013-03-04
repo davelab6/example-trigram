@@ -12,7 +12,7 @@
 
 import sys
 
-import markov
+from markov_chain import MarkovChain
 
 
 def main(args):
@@ -23,12 +23,12 @@ def main(args):
 
     letters = args.pop()
 
-    fp = open('texts/en.txt')
+    m = MarkovChain(2, letters=letters)
+    m.observe_file('texts/en.txt', True)
 
-    print 'Markov class:'
-    print
-    p = markov.Markov(fp.read(), length=10, letters=letters)
-    print p._run()
+    for i in xrange(4):
+        start = m.get_random_prestate()
+        print m.random_walk_string(10, start)
 
 if __name__ == '__main__':
     main(sys.argv[1:])
